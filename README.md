@@ -31,18 +31,17 @@ rd.open_session()
 
 ### Step 2: Read Ticker Data of Constituents of Index
 
-**One Index**
+One Index:
 If you want the constituents tickers of only one index, you can execute the function below. It takes the index and the date for which you want the constituents as arguments. 
 
 ```
-
 date = "20241031"
 index = "0#.SP400"
 
 constituents = getSingleIndexConstituents(date, index)
 ```
 
-__Multiple Indices__
+Multiple Indices:
 To get the tickers of more than one index, execute the code below. It takes a dictionary as argument. The key is the index. The value is a list where 
 
 - the first position of the list is the required date and
@@ -60,3 +59,63 @@ data_request = {
 constituents = getMultipleIndicesConstituents(data_request)
 ```
 
+For both functions, the returned data will be a pandas data frame that contains as columns the names of the indices and as row values the tickers of the constituents of the indices. 
+
+### Step 3: Load Time Series Data of a list of stocks
+
+You can load any data field from Refinitiv which is accessible by the package ```refinitiv.data```. Currently, you are limited to the frequency intervals below:
+
+- daily
+- 1d
+- 1D
+- 7D
+- 7d
+- weekly
+- 1W
+- monthly
+- 1M
+- quarterly
+- 3M
+- 6M
+- yearly
+- 12M
+- 1Y
+
+Intraday data (hourly, minutes, etc.) is not supported at this time! 
+To load this data, you can execute the function ```getIndexTimeSeries()```. 
+
+It takes the following arguments:
+
+- index_data -> Pandas Dataframe containing the list of stocks for each index. The format has to match the format used by the function ```getMultipleIndicesConstituents()```.
+- index -> List of indices (i.e. column names in the Dataframe) for which you want to read the data.
+- fields -> List of Refinitiv data fields that you want to load.
+- start_date -> First date for which you want to load data for.
+- end_date -> Last date for which you want to load data for.
+- frequency -> Frequency of the data.
+- dataset_prefix -> Name prefix of the CSV file that contains the downloaded data. 
+- sleep_time -> Specific how many seconds you want to wait after downloading data for each constituent. 
+- message_interval -> Define how many constituents (In Percent) have to be processed until you print a status message in the console. 
+- saving_interval -> Define how many constituents (In Percent) have to be processed until you save the downloaded data as a CSV file.
+
+The option to allow simultaneous data download & CSV export of the data allows you to save the data in defined frequencies to prevent data loss if the connection to Refinitiv interrupts during the downloading process. 
+
+_Here is an example_:
+```
+daily_data_fields = [
+    "TR.TotalReturn",
+    "TR.PriceClose", 
+    "TR.PriceToBVPerShare",
+    "TR.CompanyMarketCap"
+]
+
+daily_time_series_data = getIndexTimeSeries(index_data = constituents, 
+                                            index = ["0#.GDAXI", "0#.SP400"], 
+                                            fields = daily_data_fields, 
+                                            start_date = "2024-10-01", 
+                                            end_date = "2024-10-31", 
+                                            frequency = "daily", 
+                                            dataset_prefix = "daily_time_series_data",
+                                            sleep_time = 2, 
+                                            message_interval = 0.2,
+                                            saving_interval = 0.2)
+```
