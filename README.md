@@ -3,9 +3,11 @@
 > [!NOTE]
 > There are four Python code files. You can find instructions on how to use them in the sections below.
 
-1. Retrieving the tickers of all constituents in an index
-2. Loading time series data for specific or multiple stocks
-3. Exporting time series data in wide format as XLSX file.
+This Python Code allows you to:
+
+1. retrieve the tickers of all constituents in an index
+2. load time series data for specific or multiple stocks
+3. export time series data in wide format as an XLSX file.
 
 ## Code Structure
 
