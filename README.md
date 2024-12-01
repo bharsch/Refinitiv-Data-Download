@@ -119,3 +119,20 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             message_interval = 0.2,
                                             saving_interval = 0.2)
 ```
+
+### Step 4: Export data as XLSX file.
+
+You can export the data in wide format (Data fields are sheets and constituents are column names) using the function ```exportTimeSeriesDataAsXLSX()```. It takes as arguments the pandas data frame returned by the ```getIndexTimeSeries()``` function, a dictionary containing the names of the value columns you want to export as well as the names of their respective Excel sheets. Finally, you need to specify the output file name. 
+
+```
+value_column_dictionary = {
+        "Total Return": "ReturnTotal",
+        "Price Close": "PriceClose",
+        "Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
+        "Company Market Cap": "MCAP"
+}
+
+exportTimeSeriesDataAsXLSX(time_series_data = daily_time_series_data, 
+                           value_column_dictionary = value_column_dictionary, 
+                           output_file_name = "Output_Data/Refinitiv_Data")
+```
