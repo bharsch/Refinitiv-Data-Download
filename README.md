@@ -42,7 +42,7 @@ index = "0#.SP400"
 constituents = getSingleIndexConstituents(date, index)
 ```
 
-**Multiple Indices**
+__Multiple Indices__
 To get the tickers of more than one index, execute the code below. It takes a dictionary as argument. The key is the index. The value is a list where 
 
 - the first position of the list is the required date and
