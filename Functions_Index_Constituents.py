@@ -30,7 +30,6 @@ def getSingleIndexConstituents(date, index):
 
    return data
 
-
 #
 #   This function returns the constituents of multiple given indices and adds them together in a single dataframe
 #

@@ -38,6 +38,7 @@ def getStockTimeSeriesData(stock, fields, start_date, end_date, frequency, attem
         if attempt >= 1 and attempt <= 3:
             print(f"Attempt {attempt}, Stock {stock} is experiencing issues! Trying again ... ")
             
+            #Wait a until sleep time is over and try again to load data for stock!
             time.sleep(exceptional_sleep_time)
             time_series = getStockTimeSeriesData(stock, fields, start_date, end_date, frequency, attempt = attempt + 1)
             

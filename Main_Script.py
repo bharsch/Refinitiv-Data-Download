@@ -29,21 +29,20 @@ constituents.to_csv("Output_Data/constituents.csv", index = False, sep = ",")
 
 ##################################### (III) Load Time Series Data #####################################
 
-
-
 daily_data_fields = [
     "TR.TotalReturn",
     "TR.PriceClose", 
     "TR.PriceToBVPerShare",
-    "TR.CompanyMarketCap",
-    "TR.F.TotAssets",
+    "TR.CompanyMarketCap"
 ]
 
 yearly_data_fields = [
+    "TR.CommonName",
     "TR.TRESGScore",
     "TR.EnvironmentPillarScore",
     "TR.SocialPillarScore",
-    "TR.GovernancePillarScore"
+    "TR.GovernancePillarScore",
+    "TR.F.TotAssets"
 ]
 
 #   Interval can be any of these:
@@ -69,7 +68,7 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 yearly_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = "0#.GDAXI", 
+                                            index = ["0#.GDAXI"], 
                                             fields = yearly_data_fields, 
                                             start_date = "2010-01-01", 
                                             end_date = "2023-12-31", 
@@ -80,6 +79,29 @@ yearly_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 ##################################### (IV) Exporting XLSX Files #####################################
+
+value_column_dictionary = {
+        "Company Common Name":"Company Names",
+        "Total Return": "ReturnTotal",
+        "Price Close": "PriceClose",
+        "Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
+        "Company Market Cap": "MCAP",
+        "ESG Score": "ESGScore",
+        "Environmental Pillar Score": "EnvironmentalScore",
+        "Social Pillar Score": "SocialScore",
+        "Governance Pillar Score": "GovernanceScore",
+        "Total Assets": "TotalAssets"
+}
+
+data_frames_for_export = [daily_time_series_data, yearly_time_series_data]
+merge_columns = ["Date", "Stock"]
+
+#Merges dataframes together so that they are exported as one excel file
+merged_time_series_data = mergeTimeSeriesData(data_frames_for_export, merge_columns)
+
+exportTimeSeriesDataAsXLSX(time_series_data = merged_time_series_data, 
+                           value_column_dictionary = value_column_dictionary, 
+                           output_file_name = "Output_Data/BA_WiSe24_Data_US")
 
 ##################################### (I) Close Refinitiv Connection #####################################
 
