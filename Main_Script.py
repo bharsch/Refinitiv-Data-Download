@@ -3,8 +3,13 @@
 # General Packages
 import pandas as pd
 import os
+import sys
 
-os.chdir(r'C:\Users\Admin.Harsch\OneDrive - UT Cloud\Teaching\BA_Data_Download')
+#local_path = r'C:\Users\Admin.Harsch\OneDrive - UT Cloud\Teaching\BA_Data_Download'
+local_path = r"C:\Users\mauri\Desktop\Projects\Work\Refinitiv-Data-Download"
+
+os.chdir(local_path)
+sys.path.append(local_path)
 
 # Data API
 import refinitiv.data as rd
