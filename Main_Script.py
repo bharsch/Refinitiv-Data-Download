@@ -4,7 +4,7 @@
 import pandas as pd
 import os
 
-os.chdir(r'C:\Users\mauri\Desktop\Work\1) Current Employers\University of Tübingen (HIWI)\Department of Finance\10) Daten für Bachelorarbeiten aktualisieren\V3')
+os.chdir(r'C:\Users\Admin.Harsch\OneDrive - UT Cloud\Teaching\BA_Data_Download')
 
 # Data API
 import refinitiv.data as rd
@@ -25,7 +25,15 @@ data_request = {
 }
 
 constituents = getMultipleIndicesConstituents(data_request)
-constituents.to_csv("Output_Data/constituents.csv", index = False, sep = ",")
+
+output_dir = "Output_Data"
+
+# Check if the folder exists, create if not
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Save CSV file
+constituents.to_csv(os.path.join(output_dir, "constituents.csv"), index=False, sep=",")
 
 ##################################### (III) Load Time Series Data #####################################
 
