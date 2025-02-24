@@ -65,9 +65,6 @@ yearly_data_fields = [
 #   "monthly", "1M", 
 #   "quarterly", "3M", "6M", 
 #   "yearly", "12M", "1Y"
-#
-#   IMPORTANT: Retrieving intraday data (hourly, minutes, etc.) is not supported in this script! 
-#
 
 daily_time_series_data = getIndexTimeSeries(index_data = constituents, 
                                             index = ["0#.GDAXI", "0#.SP400"], 
@@ -83,7 +80,7 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
 yearly_time_series_data = getIndexTimeSeries(index_data = constituents, 
                                             index = ["0#.GDAXI"], 
                                             fields = yearly_data_fields, 
-                                            start_date = "2010-01-01", 
+                                            start_date = "2023-12-31", 
                                             end_date = "2023-12-31", 
                                             frequency = "yearly", 
                                             dataset_prefix = "yearly_time_series_data",
@@ -112,7 +109,7 @@ merge_columns = ["Date", "Stock"]
 #Merges dataframes together so that they are exported as one excel file
 merged_time_series_data = mergeTimeSeriesData(data_frames_for_export, merge_columns)
 
-exportTimeSeriesDataAsXLSX(time_series_data = merged_time_series_data, 
+exportTimeSeriesDataAsXLSX(time_series_data = yearly_time_series_data, 
                            value_column_dictionary = value_column_dictionary, 
                            output_file_name = "Output_Data/BA_WiSe24_Data_US")
 
