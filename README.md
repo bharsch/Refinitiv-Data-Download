@@ -83,7 +83,6 @@ You can load any data field from Refinitiv which is accessible by the package ``
 - 12M
 - 1Y
 
-Intraday data (hourly, minutes, etc.) is not supported at this time! 
 To load this data, you can execute the function ```getIndexTimeSeries()```. 
 
 It takes the following arguments:
