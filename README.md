@@ -123,7 +123,7 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
 
 ### Step 4: Export data as XLSX file.
 
-You can export the data in wide format (Data fields are sheets and constituents are column names) using the function ```exportTimeSeriesDataAsXLSX()```. It takes as arguments the pandas data frame returned by the ```getIndexTimeSeries()``` function, a dictionary containing the names of the value columns you want to export as well as the names of their respective Excel sheets. Finally, you need to specify the output file name. 
+You can export the data in wide format (Data fields are sheets and constituents are column names) using the function ```exportTimeSeriesDataAsXLSX()```. It takes as arguments the pandas data frame returned by the ```getIndexTimeSeries()``` function, a dictionary containing the names of the value columns you want to export as well as the names of their respective Excel sheets. Furthermore, you need to specify the output file name. Finally, you need to indicate if you would like a sheet in the excel file that contains the company RICs and the respective company common names.
 
 ```
 value_column_dictionary = {
@@ -135,5 +135,6 @@ value_column_dictionary = {
 
 exportTimeSeriesDataAsXLSX(time_series_data = daily_time_series_data, 
                            value_column_dictionary = value_column_dictionary, 
-                           output_file_name = "Output_Data/Refinitiv_Data")
+                           output_file_name = "Output_Data/Refinitiv_Data",
+                           add_company_names = True)
 ```
