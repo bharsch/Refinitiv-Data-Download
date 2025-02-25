@@ -12,6 +12,19 @@ import refinitiv.data as rd
 #   ERROR: parameters Option actually doesn't return the constituents on a specific date. 
 #
 
+def getCompanyNames(rics):
+    
+   #Retrieves constituents common name
+   data = rd.get_data(rics, ["TR.CommonName"])
+   
+   #Rename column with constituents with index name
+   data = data.rename(columns = {
+            "Instrument": "RIC",
+            "Company Common Name": f"Company_Name"
+        }
+    )
+
+   return data
 
 #
 #   This function returns the constituents of an index on a given date.
@@ -23,7 +36,10 @@ def getSingleIndexConstituents(date, index):
    data = rd.get_data(index, ["TR.RIC"], parameters = {"date": date})
    
    #Rename column with constituents with index name
-   data = data.rename(columns={"Instrument": index})
+   data = data.rename(columns = {
+            "Instrument": index
+        }
+    )
    
    #Drop not needed column
    data = data.drop(columns=["RIC"])

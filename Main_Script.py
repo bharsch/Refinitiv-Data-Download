@@ -42,6 +42,10 @@ constituents.to_csv(os.path.join(output_dir, "constituents.csv"), index=False, s
 
 ##################################### (III) Load Time Series Data #####################################
 
+#
+#   Only add columns that are time series data. Data like TR.CommonName are not time series data and cannot be loaded
+#
+
 daily_data_fields = [
     "TR.TotalReturn",
     "TR.PriceClose", 
@@ -50,7 +54,6 @@ daily_data_fields = [
 ]
 
 yearly_data_fields = [
-    "TR.CommonName",
     "TR.TRESGScore",
     "TR.EnvironmentPillarScore",
     "TR.SocialPillarScore",
@@ -78,9 +81,9 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 yearly_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = ["0#.GDAXI"], 
+                                            index = ["0#.GDAXI", "0#.SP400"], 
                                             fields = yearly_data_fields, 
-                                            start_date = "2023-12-31", 
+                                            start_date = "2022-12-31", 
                                             end_date = "2023-12-31", 
                                             frequency = "yearly", 
                                             dataset_prefix = "yearly_time_series_data",
@@ -88,14 +91,15 @@ yearly_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             message_interval = 0.2,
                                             saving_interval = 0.2)
 
+yearly_time_series_data.head()
+
 ##################################### (IV) Exporting XLSX Files #####################################
 
 value_column_dictionary = {
-        "Company Common Name":"Company Names",
-        "Total Return": "ReturnTotal",
-        "Price Close": "PriceClose",
-        "Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
-        "Company Market Cap": "MCAP",
+        #"Total Return": "ReturnTotal",
+        #"Price Close": "PriceClose",
+        #"Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
+        #"Company Market Cap": "MCAP",
         "ESG Score": "ESGScore",
         "Environmental Pillar Score": "EnvironmentalScore",
         "Social Pillar Score": "SocialScore",
@@ -111,7 +115,8 @@ merged_time_series_data = mergeTimeSeriesData(data_frames_for_export, merge_colu
 
 exportTimeSeriesDataAsXLSX(time_series_data = yearly_time_series_data, 
                            value_column_dictionary = value_column_dictionary, 
-                           output_file_name = "Output_Data/BA_WiSe24_Data_US")
+                           output_file_name = "Output_Data/BA_WiSe24_Data_US",
+                           add_company_names = True)
 
 ##################################### (I) Close Refinitiv Connection #####################################
 

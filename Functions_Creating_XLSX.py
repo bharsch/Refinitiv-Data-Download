@@ -3,12 +3,29 @@
 # General Packages
 import pandas as pd
 
+from Functions_Index_Constituents import * 
+
 ##################################### (II) Functions to Export Data #####################################
 
-def exportTimeSeriesDataAsXLSX(time_series_data, value_column_dictionary, output_file_name):
+def exportTimeSeriesDataAsXLSX(time_series_data, value_column_dictionary, output_file_name, add_company_names):
     
     #Export Transposed Data as Excel Sheet
     with pd.ExcelWriter(output_file_name + ".xlsx", engine="openpyxl") as writer:
+
+        #Only add company names if true
+        if add_company_names:
+            #I add a sheet called Company Names to the excel file containing the names of all companies
+            stocks = time_series_data["Stock"]
+            unique_stocks = stocks.unique().tolist()
+
+            #Returns the company names
+            company_names = getCompanyNames(unique_stocks)
+
+            #This prevents the index to be added to the excel sheet
+            company_names.set_index("RIC", inplace = True)
+
+            #Add sheet with company names 
+            company_names.to_excel(writer, sheet_name = "Company Names")
         
         #Loops over all columns that should be exported
         for value_column, excel_sheet_name in value_column_dictionary.items():
