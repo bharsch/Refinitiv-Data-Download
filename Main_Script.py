@@ -1,6 +1,7 @@
 ##################################### (0) Import Packages #####################################
 
 # General Packages
+
 import pandas as pd
 import os
 import sys
@@ -25,8 +26,8 @@ rd.open_session()
 
 data_request = {
     
-        "0#.GDAXI": ["20241031", 0.25],
-        "0#.SP400": ["20241031", 0.05]
+        #"0#.GDAXI": ["20241031", 0.25],
+        "0#.SPX": ["20241031", 1]
 }
 
 constituents = getMultipleIndicesConstituents(data_request)
@@ -48,7 +49,7 @@ constituents.to_csv(os.path.join(output_dir, "constituents.csv"), index=False, s
 
 daily_data_fields = [
     "TR.TotalReturn",
-    "TR.PriceClose", 
+    "TR.PriceClose",
     "TR.PriceToBVPerShare",
     "TR.CompanyMarketCap"
 ]
@@ -70,10 +71,10 @@ yearly_data_fields = [
 #   "yearly", "12M", "1Y"
 
 daily_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = ["0#.GDAXI", "0#.SP400"], 
+                                            index = ["0#.SPX"], 
                                             fields = daily_data_fields, 
                                             start_date = "2024-10-01", 
-                                            end_date = "2024-10-31", 
+                                            end_date = "2024-12-31", 
                                             frequency = "daily", 
                                             dataset_prefix = "daily_time_series_data",
                                             sleep_time = 2, 
@@ -81,10 +82,10 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 yearly_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = ["0#.GDAXI", "0#.SP400"], 
+                                            index = ["0#.SPX"], 
                                             fields = yearly_data_fields, 
-                                            start_date = "2022-12-31", 
-                                            end_date = "2023-12-31", 
+                                            start_date = "2024-10-01", 
+                                            end_date = "2024-12-31", 
                                             frequency = "yearly", 
                                             dataset_prefix = "yearly_time_series_data",
                                             sleep_time = 2, 
@@ -92,14 +93,15 @@ yearly_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 yearly_time_series_data.head()
+daily_time_series_data.head()
 
 ##################################### (IV) Exporting XLSX Files #####################################
 
 value_column_dictionary = {
-        #"Total Return": "ReturnTotal",
-        #"Price Close": "PriceClose",
-        #"Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
-        #"Company Market Cap": "MCAP",
+        "Total Return": "ReturnTotal",
+        "Price Close": "PriceClose",
+        "Price To Book Value Per Share (Daily Time Series Ratio)": "MTBV",
+        "Company Market Cap": "MCAP",
         "ESG Score": "ESGScore",
         "Environmental Pillar Score": "EnvironmentalScore",
         "Social Pillar Score": "SocialScore",
@@ -113,10 +115,10 @@ merge_columns = ["Date", "Stock"]
 #Merges dataframes together so that they are exported as one excel file
 merged_time_series_data = mergeTimeSeriesData(data_frames_for_export, merge_columns)
 
-exportTimeSeriesDataAsXLSX(time_series_data = yearly_time_series_data, 
+exportTimeSeriesDataAsXLSX(time_series_data = merged_time_series_data, 
                            value_column_dictionary = value_column_dictionary, 
                            output_file_name = "Output_Data/BA_WiSe24_Data_US",
-                           add_company_names = True)
+                           add_company_names = True) #Set to true if you want sheet with company common names
 
 ##################################### (I) Close Refinitiv Connection #####################################
 
