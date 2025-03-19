@@ -6,8 +6,8 @@ import pandas as pd
 import os
 import sys
 
-#local_path = r'C:\Users\Admin.Harsch\OneDrive - UT Cloud\Teaching\BA_Data_Download'
-local_path = r"C:\Users\mauri\Desktop\Projects\Work\Refinitiv-Data-Download"
+local_path = r'C:\Users\Admin.Harsch\OneDrive - UT Cloud\Teaching\BA_Data_Download'
+# local_path = r"C:\Users\mauri\Desktop\Projects\Work\Refinitiv-Data-Download"
 
 os.chdir(local_path)
 sys.path.append(local_path)
@@ -26,8 +26,8 @@ rd.open_session()
 
 data_request = {
     
-        #"0#.GDAXI": ["20241031", 0.25],
-        "0#.SPX": ["20241031", 1]
+        "0#.GDAXI": ["20250301", 1],
+        "0#.SPX": ["20250301", 1]
 }
 
 constituents = getMultipleIndicesConstituents(data_request)
@@ -71,10 +71,10 @@ yearly_data_fields = [
 #   "yearly", "12M", "1Y"
 
 daily_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = ["0#.SPX"], 
+                                            index = ["0#.SPX", "0#.GDAXI"], 
                                             fields = daily_data_fields, 
-                                            start_date = "2024-10-01", 
-                                            end_date = "2024-12-31", 
+                                            start_date = "2012-03-01", # yyyymmdd
+                                            end_date = "2025-03-01", 
                                             frequency = "daily", 
                                             dataset_prefix = "daily_time_series_data",
                                             sleep_time = 2, 
@@ -82,10 +82,10 @@ daily_time_series_data = getIndexTimeSeries(index_data = constituents,
                                             saving_interval = 0.2)
 
 yearly_time_series_data = getIndexTimeSeries(index_data = constituents, 
-                                            index = ["0#.SPX"], 
+                                            index = ["0#.SPX", "0#.GDAXI"], 
                                             fields = yearly_data_fields, 
-                                            start_date = "2024-10-01", 
-                                            end_date = "2024-12-31", 
+                                            start_date = "2012-03-01", 
+                                            end_date = "2025-03-01", 
                                             frequency = "yearly", 
                                             dataset_prefix = "yearly_time_series_data",
                                             sleep_time = 2, 
